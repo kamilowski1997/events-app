@@ -88,6 +88,16 @@ const appTheme = createTheme({
         },
       },
     },
+    MuiInputLabel: {
+      styleOverrides: {
+        outlined: {
+          '&.Mui-focused': {
+            fontWeight: 700,
+            textShadow: '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black',
+          },
+        },
+      },
+    },
   },
 });
 
