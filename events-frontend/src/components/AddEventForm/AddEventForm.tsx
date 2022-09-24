@@ -1,51 +1,72 @@
-import React, { useState } from 'react';
-import { TextField, Typography } from '@mui/material';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { colors } from '../../consts/colors';
-import { StyledMainStack, StyledSubmitButton } from './AddEventForm.styled';
+import React from 'react';
+import { Typography } from '@mui/material';
+import { FormProvider, useForm } from 'react-hook-form';
+import { StyledForm, StyledMainStack, StyledSubmitButton } from './AddEventForm.styled';
+import { Input } from '../common/Input/Input';
+import { DatePicker } from '../common/DatePicker/DatePicker';
+import { emailValidator } from '../../utils/validators';
 
 const AddEventForm = () => {
-  const [day, setDay] = useState(new Date());
+  const form = useForm();
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = form;
 
+  const onSubmit = (data: any) => {
+    console.log(data);
+  };
   return (
-    <StyledMainStack gap="40px" marginY="100px">
-      <Typography variant="h2" marginBottom="16px">
-        {'Add event'}
-      </Typography>
-      <TextField label="First name" required />
-      <TextField label="Last name" required />
-      <TextField label="Email" required />
-      <DesktopDatePicker
-        PopperProps={{
-          sx: {
-            '& .MuiPaper-root': {
-              backgroundColor: '#464649',
-            },
-            '& .MuiPickersDay-dayWithMargin': {
-              color: 'white',
-              backgroundColor: 'gray',
-            },
-            '& .MuiPickersDay-today': {
-              border: `2px solid ${colors.primary} !important`,
-            },
-            '& .MuiDayPicker-weekDayLabel': {
-              color: colors.primary,
-              backgroundColor: colors.background,
-              width: '26px',
-              height: '26px',
-              margin: '7px ',
-              borderRadius: '13px',
-            },
-            '& .MuiPickersCalendarHeader-label': { color: colors.primary },
-          },
-        }}
-        label="Event date"
-        inputFormat="DD/MM/YYYY"
-        value={day}
-        onChange={(value) => value && setDay(value)}
-        renderInput={(params) => <TextField {...params} color="primary" required />}
-      />
-      <StyledSubmitButton variant="contained">{'Submit'}</StyledSubmitButton>
+    <StyledMainStack marginY="100px">
+      <StyledForm onSubmit={handleSubmit(onSubmit)}>
+        <FormProvider {...form}>
+          <Typography variant="h2" marginBottom="16px">
+            {'Add event'}
+          </Typography>
+
+          <Input
+            label="First name"
+            name="firstName"
+            rules={{ required: 'This field is required' }}
+            error={!!errors.firstName}
+            helperText={(errors?.firstName?.message || '') as string}
+          />
+
+          <Input
+            label="Last name"
+            name="lastName"
+            rules={{ required: 'This field is required' }}
+            error={!!errors.lastName}
+            helperText={(errors?.lastName?.message || '') as string}
+          />
+
+          <Input
+            label="Email"
+            name="email"
+            rules={{
+              validate: {
+                emailValidator: emailValidator('Invalid email address'),
+              },
+            }}
+            error={!!errors.email}
+            helperText={(errors?.email?.message || '') as string}
+          />
+
+          <DatePicker
+            rules={{ required: 'dsadas' }}
+            name="eventDate"
+            label="Event date"
+            inputFormat="DD/MM/YYYY"
+            defaultValue={new Date()}
+            error={!!errors.eventDate}
+            helperText={(errors?.eventDate?.message || '') as string}
+          />
+
+          <StyledSubmitButton variant="contained" type="submit">
+            {'Submit'}
+          </StyledSubmitButton>
+        </FormProvider>
+      </StyledForm>
     </StyledMainStack>
   );
 };

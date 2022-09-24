@@ -11,6 +11,14 @@ export const StyledMainStack = styled(Stack)({
   borderRadius: '8px',
   padding: '24px',
 });
+
 export const StyledSubmitButton = styled(Button)({
   marginTop: '40px',
+});
+
+export const StyledForm = styled('form')({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '40px',
 });
