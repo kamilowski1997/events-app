@@ -98,6 +98,21 @@ const appTheme = createTheme({
         },
       },
     },
+    MuiBackdrop: {
+      styleOverrides: {
+        root: {
+          backgroundColor: colors.backdrop,
+          color: colors.primary,
+        },
+      },
+    },
+    MuiAlertTitle: {
+      styleOverrides: {
+        root: {
+          color: '#18181b',
+        },
+      },
+    },
   },
 });
 

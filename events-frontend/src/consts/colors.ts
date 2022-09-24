@@ -5,4 +5,5 @@ export const colors = {
   neutral: '#ffffff',
   primaryText: '#ffffff',
   secondaryText: '#efeff1',
+  backdrop: 'rgba(150, 150, 150, 0.25)',
 };

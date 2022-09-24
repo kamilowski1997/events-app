@@ -5,17 +5,22 @@ import { StyledForm, StyledMainStack, StyledSubmitButton } from './AddEventForm.
 import { Input } from '../common/Input/Input';
 import { DatePicker } from '../common/DatePicker/DatePicker';
 import { emailValidator } from '../../utils/validators';
+import { useDispatch } from '../../redux/store';
+import { actions } from '../../redux/slices/events';
+import { Event } from '../../utils/interfaces/event';
 
 const AddEventForm = () => {
-  const form = useForm();
+  const dispatch = useDispatch();
+  const form = useForm<Event>();
   const {
     handleSubmit,
     formState: { errors },
   } = form;
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = (data: Event) => {
+    dispatch(actions.addEvent(data));
   };
+
   return (
     <StyledMainStack marginY="100px">
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
