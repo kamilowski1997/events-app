@@ -1,5 +1,6 @@
 import express, { Response } from 'express';
 import { check, validationResult } from 'express-validator';
+import Event from '../../db/Event/Event';
 import { EventDto } from '../../utils/interfaces/event';
 import { TypedRequestBody } from '../../utils/interfaces/request';
 
@@ -9,8 +10,8 @@ router.post(
   '/',
   [
     check('email').isEmail().withMessage('Invalid email address.'),
-    check('firstName').isLength({ min: 1 }).withMessage('First name is required.'),
-    check('lastName').isLength({ min: 1 }).withMessage('Last name is required.'),
+    check('firstName').trim().isLength({ min: 1 }).withMessage('First name is required.'),
+    check('lastName').trim().isLength({ min: 1 }).withMessage('Last name is required.'),
     check('eventDate').isISO8601().toDate().withMessage('Invalid date.'),
   ],
   async (req: TypedRequestBody<EventDto>, res: Response) => {
@@ -19,9 +20,9 @@ router.post(
       res.status(400).json(errors);
     }
     try {
-      console.log(req.body.eventDate);
+      const event = await Event.create(req.body);
 
-      res.status(201).send();
+      res.status(201).json(event);
     } catch (err) {
       console.error(err);
       res.status(500).send();

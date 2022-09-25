@@ -4,7 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { StyledForm, StyledMainStack, StyledSubmitButton } from './AddEventForm.styled';
 import { Input } from '../common/Input/Input';
 import { DatePicker } from '../common/DatePicker/DatePicker';
-import { emailValidator } from '../../utils/validators';
+import { emailValidator, trimmedRequiredStringValidator } from '../../utils/validators';
 import { useDispatch } from '../../redux/store';
 import { actions } from '../../redux/slices/events';
 import { Event } from '../../utils/interfaces/event';
@@ -18,7 +18,14 @@ const AddEventForm = () => {
   } = form;
 
   const onSubmit = (data: Event) => {
-    dispatch(actions.addEvent(data));
+    dispatch(
+      actions.addEvent({
+        ...data,
+        firstName: data.firstName.trim(),
+        lastName: data.lastName.trim(),
+        email: data.email.trim(),
+      }),
+    );
   };
 
   return (
@@ -32,7 +39,12 @@ const AddEventForm = () => {
           <Input
             label="First name"
             name="firstName"
-            rules={{ required: 'This field is required' }}
+            rules={{
+              validate: {
+                trimmedRequiredStringValidator:
+                  trimmedRequiredStringValidator('This field is required'),
+              },
+            }}
             error={!!errors.firstName}
             helperText={(errors?.firstName?.message || '') as string}
           />
@@ -40,7 +52,12 @@ const AddEventForm = () => {
           <Input
             label="Last name"
             name="lastName"
-            rules={{ required: 'This field is required' }}
+            rules={{
+              validate: {
+                trimmedRequiredStringValidator:
+                  trimmedRequiredStringValidator('This field is required'),
+              },
+            }}
             error={!!errors.lastName}
             helperText={(errors?.lastName?.message || '') as string}
           />
