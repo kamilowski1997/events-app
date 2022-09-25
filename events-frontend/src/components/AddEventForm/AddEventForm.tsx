@@ -58,7 +58,7 @@ const AddEventForm = () => {
           />
 
           <DatePicker
-            rules={{ required: 'dsadas' }}
+            rules={{ required: 'Invalid date' }}
             name="eventDate"
             label="Event date"
             inputFormat="DD/MM/YYYY"

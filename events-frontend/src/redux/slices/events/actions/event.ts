@@ -12,10 +12,10 @@ const addEvent = createAsyncThunk('events/add', async (payload: Event, thunkApi)
   try {
     thunkApi.dispatch(actions.initAddEvent());
     const addEventData = { ...payload, eventDate: payload.eventDate.toISOString() };
-    // await HTTPService.addEvent(addEventData);
-    await new Promise((resolve) => {
-      setTimeout(resolve, 2000);
-    });
+    await HTTPService.addEvent(addEventData);
+    // await new Promise((resolve) => {
+    //   setTimeout(resolve, 2000);
+    // });
 
     thunkApi.dispatch(actions.addEventSuccess());
   } catch (error: any) {
