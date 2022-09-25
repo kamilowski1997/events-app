@@ -13,3 +13,7 @@ At first you need to set .env variables. There is .env.example to help you with 
 After it you can `yarn` to install then `yarn start` to run app.
 
 Application is listening on [http://localhost:8080]
+
+## Tests
+
+Tests for frontend app can be run by `yarn test`
