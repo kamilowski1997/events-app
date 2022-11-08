@@ -18,6 +18,7 @@ router.post(
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       res.status(400).json(errors);
+      return;
     }
     try {
       const event = await Event.create(req.body);
